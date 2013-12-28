@@ -1,5 +1,7 @@
 setup = (app, handlers) ->
-    app.get '/api/agencies', (req, res) -> res.send("coucou")
+    app.get '/api/agencies', (req, res) -> handlers.agency.list req, res
+    app.post '/api/agencies', (req, res) -> handlers.agency.save req, res
+    app.get '/api/agencies/:id', (req, res) -> handlers.agency.show req, res
 #   app.post '/api/profiles', handlers.account.createAccount
 #   app.get '/api/profiles/:username', handlers.account.getAccount
 #   app.put '/api/profiles/:username', handlers.account.updateAccount
