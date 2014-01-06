@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 
-agencySchema = new mongoose.Schema
+calendarSchema = new mongoose.Schema
   name: String
   created: {type: Date, default: Date.now}
   url: String
@@ -9,33 +9,33 @@ agencySchema = new mongoose.Schema
   phone: String
   fare_url: String
 
-Agency = mongoose.model 'Agency', agencySchema
+Calendar = mongoose.model 'Calendar', calendarSchema
 
 def href = (id) -> {}
     # 
 
 save = (req, res) ->
-    if !req.param 'agencies'
+    if !req.param 'calendars'
         res.send {"error": "bad params"}
         return
-    agency = new Agency req.body.agencies
-    agency.save (err, agency) ->
+    calendar = new Calendar req.body.calendars
+    calendar.save (err, calendar) ->
         if err
             res.send {"error": err}
             return
         else
-            res.send {"id": agency._id}
+            res.send {"id": calendar._id}
 
 list = (req, res) ->
-    Agency.find {}, (err, agencies) ->
-        res.send agencies
+    Calendar.find {}, (err, calendars) ->
+        res.send calendars
 
 show = (req, res) ->
     id = req.param 'id'
-    Agency.findById id, (err, agency) ->
+    Calendar.findById id, (err, calendar) ->
         # manage 404
         res.send err if err
-        res.send agency
+        res.send calendar
 
 update = (req, res) ->
     id = req.param 'id'
@@ -51,5 +51,3 @@ module.exports =
     save: save
     list: list
     show: show
-    update: update
-    delete: delete

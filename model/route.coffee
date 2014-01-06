@@ -1,41 +1,36 @@
 mongoose = require 'mongoose'
 
-agencySchema = new mongoose.Schema
+routeSchema = new mongoose.Schema
   name: String
   created: {type: Date, default: Date.now}
-  url: String
-  timezone: String
-  lang: String
-  phone: String
-  fare_url: String
 
-Agency = mongoose.model 'Agency', agencySchema
+Route = mongoose.model 'Route', routeSchema
 
 def href = (id) -> {}
-    # 
+    # line
 
 save = (req, res) ->
-    if !req.param 'agencies'
+    if !req.param 'routes'
         res.send {"error": "bad params"}
         return
-    agency = new Agency req.body.agencies
-    agency.save (err, agency) ->
+    route = new Route req.body.routes
+    route.save (err, route) ->
         if err
             res.send {"error": err}
             return
         else
-            res.send {"id": agency._id}
+            res.send {"id": route._id}
 
 list = (req, res) ->
-    Agency.find {}, (err, agencies) ->
-        res.send agencies
+    Route.find {}, (err, routes) ->
+        res.send routes
 
 show = (req, res) ->
     id = req.param 'id'
-    Agency.findById id, (err, agency) ->
+    Route.findById id, (err, route) ->
         # manage 404
         res.send err if err
-        res.send agency
+        res.send route
 
 update = (req, res) ->
     id = req.param 'id'

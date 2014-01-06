@@ -51,5 +51,3 @@ module.exports =
     save: save
     list: list
     show: show
-    update: update
-    delete: delete

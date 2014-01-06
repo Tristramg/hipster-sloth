@@ -1,41 +1,39 @@
 mongoose = require 'mongoose'
 
-agencySchema = new mongoose.Schema
+stopAreaSchema = new mongoose.Schema
   name: String
   created: {type: Date, default: Date.now}
-  url: String
+  lon: Float
+  lat: Float
   timezone: String
-  lang: String
-  phone: String
-  fare_url: String
 
-Agency = mongoose.model 'Agency', agencySchema
+StopArea = mongoose.model 'StopArea', stopAreaSchema
 
 def href = (id) -> {}
-    # 
+    # stop_points
 
 save = (req, res) ->
-    if !req.param 'agencies'
+    if !req.param 'stop_areas'
         res.send {"error": "bad params"}
         return
-    agency = new Agency req.body.agencies
-    agency.save (err, agency) ->
+    stop_area = new StopArea req.body.stop_areas
+    stop_area.save (err, stop_area) ->
         if err
             res.send {"error": err}
             return
         else
-            res.send {"id": agency._id}
+            res.send {"id": stop_area._id}
 
 list = (req, res) ->
-    Agency.find {}, (err, agencies) ->
-        res.send agencies
+    StopArea.find {}, (err, stop_areas) ->
+        res.send stop_areas
 
 show = (req, res) ->
     id = req.param 'id'
-    Agency.findById id, (err, agency) ->
+    StopArea.findById id, (err, stop_area) ->
         # manage 404
         res.send err if err
-        res.send agency
+        res.send stop_area
 
 update = (req, res) ->
     id = req.param 'id'

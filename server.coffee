@@ -2,8 +2,6 @@ require 'coffee-script'
 
 express = require 'express'
 
-Agency = require './model/agency'
-
 routes = require './routes'
 fs = require 'fs'
 expressLogFile = fs.createWriteStream './logs/express.log', {flags: 'a'}
@@ -25,7 +23,12 @@ app.configure 'production', () ->
 
 
 handlers =
-    agency: Agency
+    agency         : require './model/agency'
+    stop_area      : require './model/stop_area'
+    stop_point     : require './model/stop_point'
+    line           : require './model/line'
+    route          : require './model/route'
+    vehicle_journey: require './model/vehicle_journey'
 
 routes.setup app, handlers
 

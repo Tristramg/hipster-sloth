@@ -1,41 +1,39 @@
 mongoose = require 'mongoose'
 
-agencySchema = new mongoose.Schema
+vehicle_journeySchema = new mongoose.Schema
   name: String
   created: {type: Date, default: Date.now}
-  url: String
-  timezone: String
-  lang: String
-  phone: String
-  fare_url: String
+  routeId: String
+  calendarId: String
 
-Agency = mongoose.model 'Agency', agencySchema
+VehicleJourney = mongoose.model 'VehicleJourney', vehicle_journeySchema
 
 def href = (id) -> {}
-    # 
+    # route
+    # calendar
 
 save = (req, res) ->
-    if !req.param 'agencies'
+    if !req.param 'vehicle_journeys'
         res.send {"error": "bad params"}
         return
-    agency = new Agency req.body.agencies
-    agency.save (err, agency) ->
+    vehicle_journey = new VehicleJourney req.body.vehicle_journeys
+    vehicle_journey.save (err, vehicle_journey) ->
         if err
             res.send {"error": err}
             return
         else
-            res.send {"id": agency._id}
+            res.send {"id": vehicle_journey._id}
 
 list = (req, res) ->
-    Agency.find {}, (err, agencies) ->
-        res.send agencies
+    VehicleJourney.find {}, (err, vehicle_journeys) ->
+        res.send vehicle_journeys
 
 show = (req, res) ->
     id = req.param 'id'
-    Agency.findById id, (err, agency) ->
+    VehicleJourney.findById id, (err, vehicle_journey) ->
         # manage 404
         res.send err if err
-        res.send agency
+        res.send vehicle_journey
 
 update = (req, res) ->
     id = req.param 'id'
